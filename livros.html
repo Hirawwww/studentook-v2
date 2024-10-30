@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Livros</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 30px;
+        }
+        .button {
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            background-color: #4d9eeb;
+            color: rgb(8, 0, 0);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+            box-shadow: 5px 5px 2px #084992;
+        }
+        .button img {
+            width: 40px;
+            height: 40px;
+            margin-right: 12px;
+        }
+        .button:hover {
+            background-color: #0870d1;
+            transform: scale(1.05);
+        }
+        #book-section {
+            margin-top: 30px;
+            width: 90%;
+            max-width: 700px;
+        }
+        .category {
+            display: none;
+            margin-bottom: 20px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .category.active {
+            display: block;
+        }
+        .category h3 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #084992;
+            border-bottom: 2px solid #084992;
+            padding-bottom: 5px;
+        }
+        .category ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .category ul li {
+            margin: 8px 0;
+            padding: 12px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .category ul li:hover {
+            background-color: #e3e3e3;
+            transform: translateY(-2px);
+        }
+        .category ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img src="imagens/logo2.jfif" alt="Logo" class="logo">
+    <button class="button" onclick="showCategory('school-books')">
+        <img src="imagens/graduation-hat.png" alt="Livros de sua escola">
+        Livros de sua escola
+    </button>
+    <button class="button" onclick="showCategory('other-books')">
+        <img src="imagens/education.png" alt="Outros Livros">
+        Outros livros
+    </button>
+
+    <div id="book-section">
+        <div id="school-books" class="category">
+            <h3>Livros de sua escola</h3>
+            <ul>
+                <li><a href="https://drive.google.com/file/d/1at8GGfPtThbYa61Uzbbq5DNX91IzfEcV/view?usp=sharing" target="_blank">Ciências da Natureza: Matéria, Energia e a Vida</a></li>
+                <li><a href="https://drive.google.com/file/d/12Zv7nZeILFhKHVMPyTET0H0IcaSgVNcD/view?usp=sharing" target="_blank">Ciências Humanas: Sociedade, Natureza e Sustentabilidade</a></li>
+            </ul>
+        </div>
+        <div id="other-books" class="category">
+            <h3>Outros livros</h3>
+            <ul>
+                <li><a href="https://drive.google.com/file/d/13XHXDIZ_JFJ7WNt8m5ZFqMKAQIfSxu3A/view?usp=sharing" target="_blank">Conexões: Matematica e Suas Tecnologias</a></li>
+                <li><a href="https://drive.google.com/file/d/1YqJ7RAndFbTImdrQXbCG2O-sWXjErKgO/view?usp=sharing" target="_blank">Projetos Integradores: Area de Linguagens e suas Tecnologias</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showCategory(category) {
+            const schoolBooks = document.getElementById('school-books');
+            const otherBooks = document.getElementById('other-books');
+
+            if (category === 'school-books') {
+                schoolBooks.classList.add('active');
+                otherBooks.classList.remove('active');
+            } else if (category === 'other-books') {
+                schoolBooks.classList.remove('active');
+                otherBooks.classList.add('active');
+            }
+        }
+
+        // Inicialmente exibe "Livros de sua escola"
+        showCategory('school-books');
+    </script>
+</body>
+</html>
