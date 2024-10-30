@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja - Studentook</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: top;
+            height: 100vh;
+            background-color: #f7f7f7;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 20px;
+            background-color: #3b5998;
+            color: #fff;
+            align-items: center;
+            box-shadow: 0px 4px 2px -2px gray;
+        }
+        .header-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        nav a {
+            color: white;
+            font-family: 'Comic Sans MS', sans-serif;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 25px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .pontuacao {
+            margin: 20px 0;
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .produtos-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Agora garante que haverá no máximo 2 colunas */
+            gap: 20px;
+            justify-items: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .produto {
+            background-color: white;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+        .produto:hover {
+            transform: scale(1.05);
+        }
+        .produto img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .preco {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        button {
+            background-color: #4d9eeb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #0870d1;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-icon"></div>
+        <nav>
+            <a href="/store">Lojas</a>
+        </nav>
+    </header>
+
+    <div class="pontuacao">
+        <span>1000 Pontos</span> <!-- Aqui você pode adicionar lógica para exibir os pontos do usuário -->
+    </div>
+
+    <main>
+        <div class="produtos-container">
+            
+            <div class="produto">
+                <img src="./public/imagens/hawaiian-shirt.png" alt="Produto">
+                <div class="preco">Camisa Havaiana</div>
+                <button class="button" onclick="window.location.href='/purchase'">
+                    250 Pontos
+                </button>
+            </div>
+            
+            <div class="produto">
+                <img src="./public/imagens/cargo.png" alt="Produto">
+                <div class="preco">Calça Cargo</div>
+                <button class="button" onclick="window.location.href='/purchase'">
+                    300 Pontos
+                </button>
+            </div>
+
+            <div class="produto">
+                <img src="./public/imagens/flip-flops.png" alt="Produto">
+                <div class="preco">Havaianas</div>
+                <button class="button" onclick="window.location.href='/purchase'">
+                    350 Pontos
+                </button>
+            </div>
+
+            <div class="produto">
+                <img src="./public/imagens/jacket.png" alt="Produto">
+                <div class="preco">Casaco Puffer</div>
+                <button class="button" onclick="window.location.href='/purchase'">
+                    400 Pontos
+                </button>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

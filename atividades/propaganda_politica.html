@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questão - Hino à Bandeira</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            font-family: 'Comic Sans MS', sans-serif;
+            margin: 0;
+        }
+
+
+        .question-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px #d7e2ee;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #084992;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+        }
+
+
+        .option:hover {
+            background-color: #000407;
+        }
+
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #084992;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+        button:hover {
+            background-color: #000000;
+        }
+
+        .option.selected {
+        background-color: #0870d1;
+        color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="question-container">
+        <h2 class="question">(Enem/2017) Durante o Estado Novo, os encarregados da propaganda procuraram aperfeiçoar-se na arte da empolgação e envolvimento das “multidões” através das mensagens políticas. Nesse tipo de discurso, o significado das palavras importa pouco, pois, como declarou Goebbels, “não falamos para dizer alguma coisa, mas para obter determinado efeito”.<br>
+             <br>
+            CAPELATO, M. H. Propaganda política e controle dos meios de comunicação. In: PANDOLFI, D. (Org.). Repensando o Estado Novo. Rio de Janeiro: FGV, 1999.
+        </h2>
+        <p>
+            O controle sobre os meios de comunicação foi uma marca do Estado Novo, sendo fundamental à propaganda política, na medida em que visava
+        </p>
+
+
+        <!-- Opções de resposta -->
+        <div class="option" onclick="selectOption('A')">A) conquistar o apoio popular na legitimação do novo governo.</div>
+        <div class="option" onclick="selectOption('B')">B) ampliar o envolvimento das multidões nas decisões políticas.</div>
+        <div class="option" onclick="selectOption('C')">C) aumentar a oferta de informações públicas para a sociedade civil.</div>
+        <div class="option" onclick="selectOption('D')">D) estender a participação democrática dos meios de comunicação no Brasil.</div>
+        <div class="option" onclick="selectOption('E')">E) alargar o entendimento da população sobre as intenções do novo governo.</div>
+
+
+        <button onclick="submitAnswer()">Enviar Resposta</button>
+    </div>
+
+
+    <script>
+        let selectedOption = '';
+        let atividadeId = 2; 
+        let userId = null;
+    
+        // Função para buscar o userId da sessão
+        function getUserId() {
+            return fetch('/user-session')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.userId) {
+                        userId = data.userId;
+                        return userId;
+                    } else {
+                        throw new Error('Usuário não autenticado');
+                    }
+                });
+        }
+    
+        function selectOption(option) {
+            // Remove a classe 'selected' de todas as opções
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+    
+            // Adiciona a classe 'selected' à opção escolhida
+            const selectedElement = document.querySelector(`.option[onclick*="${option}"]`);
+            selectedElement.classList.add('selected');
+    
+            selectedOption = option;
+            console.log('Opção selecionada:', selectedOption);
+        }
+    
+        async function submitAnswer() {
+            if (!selectedOption) {
+                alert('Por favor, selecione uma opção antes de enviar.');
+                return;
+            }
+    
+            // Busca o userId antes de enviar a resposta
+            if (!userId) {
+                try {
+                    await getUserId(); // Obtém o userId da sessão
+                } catch (error) {
+                    alert(error.message);
+                    return;
+                }
+            }
+    
+            // Envia a resposta para o backend via AJAX
+            fetch('/submit-answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,  // Inclui o ID do usuário dinâmico
+                    atividadeId: atividadeId, // ID da atividade
+                    answer: selectedOption  // Resposta selecionada
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            });
+        }
+    </script>
+   
+</body>
+</html>
+
+
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENTOOK</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 25%;
+            height: auto;
+            margin-bottom: 20px; /* Espaço entre a logo e as escritas */
+        }
+
+        h1 {
+            font-family: Arial;
+            font-size: 30pt;
+            color: rgb(83, 159, 245);
+            text-shadow: 1px 1px 1px black;
+        }
+
+        h3 {
+            font-family: Arial;
+            font-size: 20pt;
+            color: rgb(15, 118, 187);
+            text-shadow: 3px 3px 1px rgb(151, 202, 245);
+        }
+    </style>
+
+    <script>
+        // tchungar pra tela 2
+        setTimeout(function() {
+            window.location.href = "/next";
+        }, 5000); 
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="./public/imagens/logo2.jfif" alt="Logo" class="logo">
+        <hgroup>
+            <h3>Um aplicativo gamificado para acesso a recursos didáticos do PNLD.</h3>
+            <h3>Etapa de ensino: Educação Profissional</h3>
+        </hgroup>
+    </div>
+</body>
+</html>

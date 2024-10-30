@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENTOOK JUMPING GAME!</title>
+    
+    <style>
+
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: rgb(145, 63, 38);
+            font-family: Arial, sans-serif;
+            margin: 0;
+         }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .game-board {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(#87CEEB, #E0F6FF);
+            border-bottom: 15px solid green;
+        }
+
+        .obstaculo {
+            position: absolute;
+            bottom: 0;
+            width: 110px;
+            height: 110px; /* Define a altura do obstáculo */
+            margin-left: 70px;
+            animation: obstaculo-animation 1.5s infinite linear;
+        }
+
+        .studentooki {
+            width: 100px;
+            height: 100px; /* Define a altura do personagem */
+            position: absolute;
+            bottom: 0;
+            margin-left: 50px;
+        }
+
+        .clouds {
+            position: absolute;
+            width: 550px;
+            animation: clouds-animation 20s infinite linear;
+        }
+
+        .game-over {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 70px;
+            font-weight: bold;
+            color: #5a9deb;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            text-shadow: 8px 2px 1px  #003a69;
+        }
+
+        .score {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .restart-button {
+            display: none;
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 18px;
+            background-color: #5a9deb;
+            color: #003a69;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 5px 5px 2px #072d55;
+        }
+
+        @keyframes obstaculo-animation {
+            from {
+                right: -80px;
+            }
+            to {
+                right: 100%;
+            }
+        }
+
+        @keyframes jump {
+            0% {
+                bottom: 0;
+            }
+            6.25%{
+                bottom: 22.5px;
+            }
+            12.5% {
+                bottom: 45px;
+            }
+            18.75% {
+                bottom: 67.5px;
+            }
+            25%{
+                bottom: 90px;
+            }
+            31.25% {
+                bottom: 112.5px;
+            }
+            37.5% {
+                bottom: 135px;
+            }
+            43.75% {
+                bottom: 157.5px;
+            }
+            50% {
+                bottom: 180px;
+            }
+            56.25% {
+                bottom: 157.5px;
+            }
+            62.5% {
+                bottom: 135px;
+            }
+            68.75% {
+                bottom: 112.5px;
+            }
+            75% {
+                bottom: 90px;
+            }
+            81.25%{
+                bottom: 67.5px;
+            }
+            87.5% {
+                bottom: 45px;
+            }
+            93.75%{
+                bottom: 22.5px;
+            }
+            100% {
+                bottom: 0;
+            }
+        }
+
+        @keyframes clouds-animation {
+            from {
+                right: -550px;
+            }
+            to {
+                right: 100%;
+            }
+        }
+
+        .jump {
+            animation: jump 800ms ease-out;
+        }
+
+    </style>
+    
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentooki = document.querySelector('.studentooki');
+            const obstaculo = document.querySelector('.obstaculo');
+            const clouds = document.querySelector('.clouds');
+            const gameOverScreen = document.querySelector('.game-over');
+            const restartButton = document.querySelector('.restart-button');
+            const scoreElement = document.querySelector('.score');
+            const walkingImages = ['./public/imagens/Andando_esquerda.png', './public/imagens/Andando_meio.png', './public/imagens/Andando_direita.png'];
+            let currentIndex = 0;
+            let gameStarted = false;
+            let isGameOver = false;
+            let score = 0;
+            let scoreInterval;
+            let intervalId;
+
+            // Função para iniciar o jogo
+            function startGame() {
+                if (!gameStarted && !isGameOver) {
+                    // Iniciar as animações do obstáculo e das nuvens
+                    obstaculo.style.animation = 'obstaculo-animation 1.5s infinite linear';
+                    clouds.style.animation = 'clouds-animation 20s infinite linear';
+                    
+                    // Alterna as imagens a cada 0.3 segundos
+                    intervalId = setInterval(() => {
+                        studentooki.src = walkingImages[currentIndex];
+                        currentIndex = (currentIndex + 1) % walkingImages.length; // alterna entre 0, 1 e 2
+                    }, 300); // 0.3 segundos = 300ms
+
+                    gameStarted = true;
+
+                    // Inicia a verificação de colisão e contagem de pontuação
+                    gameLoop();
+                    startScoring();
+                }
+            }
+
+            // Função para o pulo
+            function jump() {
+                if (!isGameOver && !studentooki.classList.contains('jump')) {
+                    studentooki.src = './public/imagens/Pulando.png'; // Altera a imagem para a de pulo
+                    studentooki.style.width = '100px';
+                    studentooki.style.marginLeft = '50px';
+                    studentooki.classList.add('jump');
+                    setTimeout(function() {
+                        studentooki.classList.remove('jump');
+                    }, 800); // Ajustado para 800ms
+                }
+            }
+
+            // Função que verifica colisão
+            function gameLoop() {
+                const loop = setInterval(() => {
+                    if (isGameOver) return; // Se o jogo acabou, não verificar colisões
+
+                    const obstaculoRect = obstaculo.getBoundingClientRect();
+                    const studentookiRect = studentooki.getBoundingClientRect();
+
+                    const isCollidingHorizontally = 
+                        studentookiRect.right > obstaculoRect.left && 
+                        studentookiRect.left < obstaculoRect.right;
+
+                    const isCollidingVertically = 
+                        studentookiRect.bottom > obstaculoRect.top && 
+                        studentookiRect.top < obstaculoRect.bottom;
+
+                    if (isCollidingHorizontally && isCollidingVertically) {
+                        isGameOver = true;
+
+                        // Para a animação do obstáculo e do personagem
+                        obstaculo.style.animation = 'none';
+                        studentooki.style.animation = 'none';
+
+                        // Congela a posição do personagem e obstáculo
+                        obstaculo.style.right = `${parseFloat(window.getComputedStyle(obstaculo).right)}px`;
+                        studentooki.style.bottom = `${parseFloat(window.getComputedStyle(studentooki).bottom)}px`;
+
+                        // Troca a imagem para "morto"
+                        studentooki.src = './public/imagens/Morto.png'; 
+                        studentooki.style.width = '100px';
+                        studentooki.style.marginLeft = '50px';
+
+                        clearInterval(loop); // Para o loop de detecção de colisão
+                        clearInterval(intervalId); // Para o loop de troca de imagens
+                        clearInterval(scoreInterval); // Para a contagem de pontos
+
+                        // Exibe a tela de game over e o botão de recomeçar
+                        gameOverScreen.style.display = 'block';
+                        restartButton.style.display = 'block';
+                    }
+                }, 10);
+            }
+
+            // Função que controla a pontuação
+            function startScoring() {
+                score = 0;
+                scoreInterval = setInterval(() => {
+                    score += 1;
+                    scoreElement.textContent = `Pontuação: ${score}`;
+                }, 100); // Incrementa a pontuação a cada 100ms
+            }
+
+            function restartGame() {
+                // Reseta todas as variáveis de estado do jogo
+                gameStarted = false;
+                isGameOver = false;
+                currentIndex = 0;
+
+                // Oculta a tela de game over e o botão de recomeçar
+                gameOverScreen.style.display = 'none';
+                restartButton.style.display = 'none';
+
+                // Reseta a pontuação
+                scoreElement.textContent = 'Pontuação: 0';
+                score = 0;
+
+                // Reseta a posição do personagem e obstáculo
+                studentooki.src = 'imagens/Andando_esquerda.png';
+                
+                // Remover a animação de pulo com tempo para garantir o reset
+                studentooki.classList.remove('jump');
+                setTimeout(() => {
+                    studentooki.style.animation = '';
+                }, 10);  // Pequeno delay para garantir que a animação seja resetada
+
+                obstaculo.style.animation = 'obstaculo-animation 1.5s infinite linear';
+                clouds.style.animation = 'clouds-animation 20s infinite linear';
+
+                // Reinicia o jogo
+                startGame();
+}
+
+
+            // Inicia o jogo quando qualquer tecla é pressionada
+            document.addEventListener('keydown', function(event) {
+                if (!gameStarted) {
+                    startGame();
+                }
+
+                if (event.code === 'Space' && !isGameOver) {
+                    jump();
+                }
+            });
+
+            // Evento para o botão de reiniciar
+            restartButton.addEventListener('click', restartGame);
+        });
+    </script>
+</head>
+<body>
+    
+    <div class="game-board">
+        <img src="./public/imagens/clouds.png" class="clouds" alt="Nuvens">
+        <img src="./public/imagens/Andando_esquerda.png" class="studentooki" alt="Personagem">
+        <img src="./public/imagens/obstaculo.png" class="obstaculo" alt="Obstáculo">
+        <div class="score">Pontuação: 0</div>
+        <div class="game-over">Game Over!</div>
+        <button class="restart-button">Recomeçar</button>
+    </div>
+
+</body>
+</html>

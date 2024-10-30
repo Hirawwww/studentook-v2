@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividades</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+        }
+        .button {
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            background-color: #4d9eeb;
+            color: rgb(8, 0, 0);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+            box-shadow: 5px 5px 2px rgb(8, 73, 146);
+        }
+        .button img {
+            width: 40px;
+            height: 40px;
+            margin-right: 12px;
+        }
+        .button:hover {
+            background-color: #0870d1;
+            transform: scale(1.05);
+        }
+        #activity-section {
+            margin-top: 30px;
+            width: 90%;
+            max-width: 700px;
+        }
+        .category {
+            display: none;
+            margin-bottom: 20px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .category.active {
+            display: block;
+        }
+        .category h3 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #084992;
+            border-bottom: 2px solid #084992;
+            padding-bottom: 5px;
+        }
+        .category ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .category ul li {
+            margin: 8px 0;
+            padding: 12px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .category ul li:hover {
+            background-color: #e3e3e3;
+            transform: translateY(-2px);
+        }
+        .category ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img src="./public/imagens/logo2.jfif" alt="Logo" class="logo">
+    <button class="button" onclick="showCategory('school-activities')">
+        <img src="./public/imagens/checklist.png" alt="Atividades da Escola">
+        Atividades da Escola
+    </button>
+    <button class="button" onclick="showCategory('other-activities')">
+        <img src="./publicimagens/list-to-do.png" alt="Outras Atividades">
+        Outras Atividades
+    </button>
+
+    <div id="activity-section">
+        <div id="school-activities" class="category">
+            <h3>Atividades da Escola</h3>
+            <ul>
+                <li><a href="activity/conjuntos" target="_blank">Matemática: Equações e Funções</a></li>
+                <li><a href="activity/propaganda-politica" target="_blank">Ciências Humanas: Propaganda politica</a></li>
+            </ul>
+        </div>
+        <div id="other-activities" class="category">
+            <h3>Outras Atividades</h3>
+            <ul>
+                <li><a href="activity/hino-bandeira" target="_blank">Linguagens: Hino à Bandeira </a></li>
+                <li><a href="activity/organizacao-ecologica" target="_blank">Ciências da Natureza: Organização Ecologica</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showCategory(category) {
+            const schoolActivities = document.getElementById('school-activities');
+            const otherActivities = document.getElementById('other-activities');
+
+            if (category === 'school-activities') {
+                schoolActivities.classList.add('active');
+                otherActivities.classList.remove('active');
+            } else if (category === 'other-activities') {
+                schoolActivities.classList.remove('active');
+                otherActivities.classList.add('active');
+            }
+        }
+
+        // Inicialmente exibe "Atividades da Escola"
+        showCategory('school-activities');
+    </script>
+</body>
+</html>

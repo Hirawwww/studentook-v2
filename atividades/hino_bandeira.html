@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questão - Hino à Bandeira</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            font-family: 'Comic Sans MS', sans-serif;
+            margin: 0;
+        }
+
+
+        .question-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px #f7f7f7;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+
+        .option {
+            display: block;
+            margin: 10px 0;
+            padding: 15px;
+            background-color: #084992;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+        }
+
+
+        .option:hover {
+            background-color: #000000;
+        }
+
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #084992;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+        button:hover {
+            background-color: #000000;
+        }
+
+        .option.selected {
+        background-color: #0870d1;
+        color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="question-container">
+        <h2 class="question"> <br>
+             <br>
+            (Enem 2020) <br>
+             <br>
+            Hino à Bandeira <br>
+             <br>
+             Em teu seio formoso retratas <br>
+            Este céu de puríssimo azul, <br>
+            A verdura sem par destas matas, <br>
+             E o esplendor do Cruzeiro do Sul. <br>
+              <br>
+            Contemplando o teu vulto sagrado, <br>
+            Compreendemos o nosso dever, <br>
+            E o Brasil por seus filhos amado, <br>
+            Poderoso e feliz há de ser! <br>
+             <br>
+            Sobre a imensa Nação Brasileira, <br>
+            Nos momentos de festa ou de dor, <br>
+            Paira sempre sagrada bandeira <br>
+            Pavilhão da justiça e do amor! <br>
+
+        </h2>
+        <p>
+            BILAC, O.; BRAGA, F. Disponível em: www2.planalto.gov.br. Acesso em: 10 dez. 2017 (fragmento). <br>
+             <br>
+             No Hino à Bandeira, a descrição é um recurso utilizado para exaltar o símbolo nacional na medida em que
+        </p>
+
+
+        <!-- Opções de resposta -->
+        <div class="option" onclick="selectOption('A')">A) remete a um momento futuro.</div>
+        <div class="option" onclick="selectOption('B')">B) promove a união dos cidadãos.</div>
+        <div class="option" onclick="selectOption('C')">C) valoriza os seus elementos.</div>
+        <div class="option" onclick="selectOption('D')">D) emprega termos religiosos.</div>
+        <div class="option" onclick="selectOption('E')">E) recorre à sua história.</div>
+
+
+        <button onclick="submitAnswer()">Enviar Resposta</button>
+    </div>
+
+
+    <script>
+        let selectedOption = '';
+        let atividadeId = 4; 
+        let userId = null;
+    
+        // Função para buscar o userId da sessão
+        function getUserId() {
+            return fetch('/user-session')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.userId) {
+                        userId = data.userId;
+                        return userId;
+                    } else {
+                        throw new Error('Usuário não autenticado');
+                    }
+                });
+        }
+    
+        function selectOption(option) {
+            // Remove a classe 'selected' de todas as opções
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+    
+            // Adiciona a classe 'selected' à opção escolhida
+            const selectedElement = document.querySelector(`.option[onclick*="${option}"]`);
+            selectedElement.classList.add('selected');
+    
+            selectedOption = option;
+            console.log('Opção selecionada:', selectedOption);
+        }
+    
+        async function submitAnswer() {
+            if (!selectedOption) {
+                alert('Por favor, selecione uma opção antes de enviar.');
+                return;
+            }
+    
+            // Busca o userId antes de enviar a resposta
+            if (!userId) {
+                try {
+                    await getUserId(); // Obtém o userId da sessão
+                } catch (error) {
+                    alert(error.message);
+                    return;
+                }
+            }
+    
+            // Envia a resposta para o backend via AJAX
+            fetch('/submit-answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,  // Inclui o ID do usuário dinâmico
+                    atividadeId: atividadeId, // ID da atividade
+                    answer: selectedOption  // Resposta selecionada
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            });
+        }
+    </script>
+   
+</body>
+</html>
+
+
+

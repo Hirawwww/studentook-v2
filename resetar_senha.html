@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinir Senha</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        .logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="password"] {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4d9eeb;
+            color: #e4f1ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 5px 5px 2px #084992;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+        button img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0474f5;
+            transform: scale(1.05);
+        }
+        h2 {
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 20pt;
+            color: #358ef5;
+            text-shadow: 2px 2px 1px #082546;
+        }
+    </style>
+</head>
+<body>
+    <img src="./public/imagens/logo2.jfif" alt="Logo" class="logo">
+    <h2>Redefinir Senha</h2>
+    <form action="/reset/<%= token %>" method="POST">
+        <input type="password" name="password" placeholder="Nova Senha" required>
+        <button type="submit">Redefinir Senha</button>
+    </form>
+</body>
+</html>

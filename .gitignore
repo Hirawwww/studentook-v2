@@ -1,0 +1,17 @@
+node_modules/
+package-lock.json/
+package.json/
+
+package-lock.json
+package.json
+public/imagens/logo_atividades.png
+public/imagens/logo_listaLivros.png
+public/imagens/logo_pontos.png
+public/imagens/logo.png
+public/imagens/logo2.jfif
+uploads/1722549400492.pdf
+uploads/1723035643577.pdf
+uploads/1723035647185.pdf
+uploads/1723035657641.pdf
+uploads/1723035667062.pdf
+uploads/1723035686674.pdf
